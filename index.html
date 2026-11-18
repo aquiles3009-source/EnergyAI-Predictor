@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyAI Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f5f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0002;
+        }
+
+        h1 {
+            text-align: center;
+            color: #163b52;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #167b70;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>EnergyAI Predictor</h1>
+        <p>Estimate monthly household electricity consumption.</p>
+
+        <form id="predictionForm">
+            <label>Number of Occupants</label>
+            <input type="number" id="occupants"
+                   min="1" max="6" value="4" required>
+
+            <label>Average Temperature (°C)</label>
+            <input type="number" id="temperature"
+                   min="0" max="30" step="any"
+                   value="15" required>
+
+            <label>House Size (m²)</label>
+            <input type="number" id="houseSize"
+                   min="40" max="250" step="any"
+                   value="120" required>
+
+            <button type="submit">
+                Predict Energy Consumption
+            </button>
+        </form>
+
+        <div id="result" role="status" aria-live="polite"></div>
+    </div>
+
+    <script>
+        document.getElementById("predictionForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const data = {
+                    num_occupants: Number(
+                        document.getElementById("occupants").value
+                    ),
+                    avg_temperature: Number(
+                        document.getElementById("temperature").value
+                    ),
+                    house_size: Number(
+                        document.getElementById("houseSize").value
+                    )
+                };
+
+                const result = document.getElementById("result");
+                result.textContent = "Calculating...";
+
+                try {
+                    const response = await fetch("/predict", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Prediction request failed");
+                    }
+
+                    const prediction = await response.json();
+
+                    result.textContent =
+                        "Predicted Consumption: " +
+                        prediction.predicted_energy_kwh +
+                        " kWh/month";
+
+                } catch (error) {
+                    result.textContent =
+                        "Unable to obtain prediction.";
+                    console.error(error);
+                }
+            });
+    </script>
+</body>
+</html>
