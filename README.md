@@ -80,3 +80,25 @@ Visit http://127.0.0.1:8000 in your browser.
 
 API documentation: http://127.0.0.1:8000/docs
 
+## Model Evaluation
+
+The Random Forest regression model was evaluated using an 80/20 training and testing split.
+
+- **Mean Absolute Error (MAE):** 32.01 kWh
+- **Root Mean Squared Error (RMSE):** 41.13 kWh
+- **R² Score:** 0.9419
+
+The R² score indicates that the model explained approximately 94.19% of the variation in electricity consumption within the test dataset. These results do not guarantee equivalent accuracy on real-world household data.
+
+## Future Improvements
+
+- Train and validate the model using real-world household energy datasets.
+- Include additional features such as appliance usage and building insulation.
+- Add visual charts showing estimated electricity consumption.
+- Introduce historical consumption tracking.
+- Improve input validation and automated testing.
+- Develop a more responsive interface for mobile devices.
+
+## Project Status
+
+The initial version of EnergyAI Predictor has been developed and deployed successfully using FastAPI, Scikit-learn, GitHub and Render.
