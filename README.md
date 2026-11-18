@@ -50,3 +50,33 @@ EnergyAI Predictor
 6. JavaScript displays the prediction on the webpage.
 
 **Architecture:** HTML/CSS/JavaScript → FastAPI → Random Forest Model → JSON Response → Webpage
+
+## Installation and Local Setup
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/aquiles3009-source/EnergyAI-Predictor.git
+cd EnergyAI-Predictor
+```
+
+### 2. Create and activate a virtual environment
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### 3. Install dependencies
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Start the FastAPI server
+```bash
+python -m uvicorn main:app --reload
+```
+
+### 5. Open the application
+Visit http://127.0.0.1:8000 in your browser.
+
+API documentation: http://127.0.0.1:8000/docs
+
